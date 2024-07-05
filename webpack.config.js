@@ -12,6 +12,7 @@ module.exports = (env, argv) => {
       filename: isProduction ? '[name].[contenthash].js' : 'main.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
+      assetModuleFilename: 'images/[hash][ext][query]'
     },
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer: {
