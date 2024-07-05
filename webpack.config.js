@@ -12,8 +12,10 @@ module.exports = (env, argv) => {
       filename: isProduction ? '[name].[contenthash].js' : 'main.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
-      assetModuleFilename: 'images/[hash][ext][query]'
-    },
+      assetModuleFilename: (pathData) => {
+        const filepath = path.dirname(pathData.filename).split('/').slice(1).join('/');
+        return `${filepath}/[name].[hash][ext][query]`;
+      },    },
     devtool: isProduction ? 'source-map' : 'inline-source-map',
     devServer: {
       static: './dist',
@@ -41,10 +43,16 @@ module.exports = (env, argv) => {
         {
           test: /\.(png|svg|jpg|jpeg|gif)$/i,
           type: 'asset/resource',
+          generator: {
+            filename: 'images/[name].[hash][ext][query]'
+          }
         },
         {
           test: /\.(woff|woff2|eot|ttf|otf)$/i,
           type: 'asset/resource',
+          generator: {
+            filename: 'fonts/[name].[hash][ext][query]'
+          }
         },
       ],
     },
