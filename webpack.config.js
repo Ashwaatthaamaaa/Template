@@ -54,6 +54,23 @@ module.exports = (env, argv) => {
             filename: 'fonts/[name].[hash][ext][query]'
           }
         },
+        {
+          test: /\.(?:js|mjs|cjs)$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+            options: {
+              cacheDirectory: true,
+              presets: [
+                ['@babel/preset-env', { targets: "defaults" }]
+              ],
+              plugins: [
+                '@babel/plugin-transform-runtime',
+                '@babel/plugin-proposal-class-properties'
+              ]
+            }
+          }
+        }
       ],
     },
     optimization: {
